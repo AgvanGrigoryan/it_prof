@@ -11,7 +11,7 @@ from aiogram.types import ReplyKeyboardRemove
 # @dp.message_handler(commands=['start'])
 async def command_start(message: types.Message, state: FSMContext):
     try:
-        await bot.send_message(message.from_user.id, "Приветствую")
+        await bot.send_message(message.from_user.id, "Welcome 🙂")
         await lang_set(message, state)
 
     except:
