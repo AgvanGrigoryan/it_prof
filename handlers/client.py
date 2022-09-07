@@ -15,7 +15,7 @@ async def command_start(message: types.Message, state: FSMContext):
         await lang_set(message, state)
 
     except:
-        await message.reply("OjjhjԲոտի հետ շփումը անձնական նամակներով,\
+        await message.reply("Բոտի հետ շփումը անձնական նամակներով,\
          գրեք [նրան](https://t.me/it_prof_choose_bot)", parse_mode='Markdown')
 
 
