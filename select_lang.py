@@ -1,3 +1,5 @@
+import json
+
 from create_bot import bot
 from aiogram import types
 
@@ -8,6 +10,8 @@ from keyboards.lang_select_kb import select_lang_kb
 
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
+
+from language import ans_hello_info
 
 ID = None
 
@@ -41,8 +45,9 @@ async def lang_set(message: types.Message, state: FSMContext):
     await FSMClient.user_id.set()
     async with state.proxy() as data:
         data['user_id'] = message.from_user.id
+    # await sqlite_db.sql_add_command(state)
     await FSMClient.next()
-    await message.reply('Please Select Language:', reply_markup=select_lang_kb)
+    await message.reply("Please select language:", reply_markup=select_lang_kb)
 
 
 # @dp.message_handler(state=FSMClient.lang)
@@ -50,8 +55,8 @@ async def load_lang(message: types.Message, state: FSMContext):
     if message.from_user.id == ID:
         async with state.proxy() as data:
             data['lang'] = await lang_code(message)
-
         await sqlite_db.sql_add_command(state)
-        await bot.send_message(message.from_user.id, f"Բարև հարգելի *{message.from_user.full_name}*, ես քեզ կոգնեմ IT-մասնագիտություն ընտրելու հարցում։\nՍեխմիր _\'✨ Test\'_ կոճակը թեստը սկսելու համար։", reply_markup=main_menu, parse_mode="Markdown")
+        # hello_message = "Բարև հարգելի օգտատեր, ես քեզ կոգնեմ IT-մասնագիտություն ընտրելու հարցում։\nՍեխմիր _\'✨ Թեստ\'_ կոճակը թեստը սկսելու համար։"
+        await bot.send_message(message.from_user.id, await ans_hello_info(), reply_markup=main_menu, parse_mode="Markdown")
 
         await state.finish()
