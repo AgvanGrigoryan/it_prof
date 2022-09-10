@@ -8,12 +8,11 @@ score = 0
 i = 0
 
 
+# not working
 async def cancel():
     global i, score
-    print(i, score)
     i = 0
     score = 0
-    print(i, score)
 
 
 async def test(message: types.Message):
