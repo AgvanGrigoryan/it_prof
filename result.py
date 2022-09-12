@@ -42,7 +42,7 @@ async def test(message: types.Message):
     else:
         await message.answer(text=f"{i + 1}/{len(question)}\n" + question[i], reply_markup=questions_kb.question_kb[i])
         i += 1
-    await message.delete()
+        await message.delete()
 
 
 async def result():
