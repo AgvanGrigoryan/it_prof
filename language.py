@@ -50,6 +50,16 @@ async def ans_test_btn():
     return trans[7]
 
 
+async def ans_test_started():
+    global trans
+    return trans[8]
+
+
+async def ans_test_finished():
+    global trans
+    return trans[9]
+
+
 async def ans_sett_btn():
     global trans
     return trans[8]

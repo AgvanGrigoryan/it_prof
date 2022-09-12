@@ -15,7 +15,8 @@ def sql_start():
     base.commit()
     # create@ chi ashxadi, sax chi sarqe
     base.execute('CREATE TABLE IF NOT EXISTS language(lang PRIMARY KEY, choose_lang, choosed_lang, hello_info, '
-                 'hello_error, cancel_btn, main_menu, test_btn, sett_btn, sett_text, sett_lang_btn, help_btn, '
+                 'hello_error, cancel_btn, main_menu, test_btn, tst_started, tst_finished, sett_btn, sett_text, '
+                 'sett_lang_btn, help_btn, '
                  'help_info, msg_err)')
     base.commit()
 
@@ -52,12 +53,12 @@ async def update_user_lang(data):
 
 # Translate
 async def lang_info_add_am():
-    cur.execute('INSERT OR REPLACE INTO language VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ('AM',
+    cur.execute('INSERT OR REPLACE INTO language VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ('AM',
                                                                                         "Ընտրեք լեզուն՝",
                                                                                         "Ընտրված է հայերեն լեզուն։",
                                                                                         "Բարև հարգելի օգտատեր, ես քեզ "
-                                                                                        "կոգնեմ IT-մասնագիտություն "
-                                                                                        "ընտրելու հարցում։\nՍեխմիր "
+                                                                                        "կօգնեմ IT-մասնագիտություն "
+                                                                                        "ընտրելու հարցում։\nՍեղմիր "
                                                                                         "_\'✨ Թեստ\'_ կոճակը թեստը "
                                                                                         "սկսելու համար։",
                                                                                         "Բոտի հետ շփումը անձնական "
@@ -67,6 +68,8 @@ async def lang_info_add_am():
                                                                                         "⬅ Չեղարկել",
                                                                                         "Գլխավոր մենյու՝",
                                                                                         "✨ Թեստ",
+                                                                                        "Թեստը սկսված է՝",
+                                                                                        "Թեստը ավարտված է։",
                                                                                         "⚙ Կարգավորումներ",
                                                                                         "Կարգավորումների բաժին՝",
                                                                                         "Լեզու",
@@ -82,7 +85,7 @@ async def lang_info_add_am():
 
 
 async def lang_info_add_en():
-    cur.execute('INSERT OR REPLACE INTO language VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ('EN',
+    cur.execute('INSERT OR REPLACE INTO language VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ('EN',
                                                                                         "Please select language:",
                                                                                         "English is selected.",
                                                                                         "Welcome dear user, I will "
@@ -98,6 +101,8 @@ async def lang_info_add_en():
                                                                                         "⬅ Cancel",
                                                                                         "Main menu:",
                                                                                         "✨ Test",
+                                                                                        "Test started:",
+                                                                                        "Test finished.",
                                                                                         "⚙ Settings",
                                                                                         "Settings section:",
                                                                                         "Language",

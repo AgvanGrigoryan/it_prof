@@ -10,12 +10,12 @@ from select_lang import lang_set, load_lang, FSMClient
 from result import *
 
 
-async def test_cancel(message: types.Message):
-    types.ReplyKeyboardRemove()
-    await message.answer("Գլխավոր մենյու՝", reply_markup=client_kb.main_menu)
-
-    # not working
-    await result.cancel()
+# async def test_cancel(message: types.Message):
+#     types.ReplyKeyboardRemove()
+#     await message.answer("Գլխավոր մենյու՝", reply_markup=client_kb.main_menu)
+#
+#
+#     await result.cancel()
 
 
 # @dp.message_handler(Text(equals='✨ Test', ignore_case=True), state='*')
@@ -46,5 +46,5 @@ def register_handlers_other(disp: Dispatcher):
     disp.register_message_handler(settings_open, commands=['settings'])
     disp.register_message_handler(lang_set, Text(equals='Լեզու', ignore_case=True), state='*')
     disp.register_message_handler(load_lang, state=FSMClient.lang)
-    disp.register_message_handler(test_cancel, lambda message: message.text == "⬅ չեղարկել")
+    # disp.register_message_handler(test_cancel, Text(equals="⬅ չեղարկել", ignore_case=True), state='*')
     disp.register_message_handler(all_message)
