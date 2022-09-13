@@ -62,29 +62,29 @@ async def ans_test_finished():
 
 async def ans_sett_btn():
     global trans
-    return trans[8]
+    return trans[10]
 
 
 async def ans_sett_text():
     global trans
-    return trans[9]
+    return trans[11]
 
 
 async def ans_sett_lang_btn():
     global trans
-    return trans[10]
+    return trans[12]
 
 
 async def ans_help_btn():
     global trans
-    return trans[11]
+    return trans[13]
 
 
 async def ans_help_info():
     global trans
-    return trans[12]
+    return trans[14]
 
 
 async def ans_msg_err():
     global trans
-    return trans[13]
+    return trans[15]

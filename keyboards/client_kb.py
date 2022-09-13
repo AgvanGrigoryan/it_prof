@@ -13,4 +13,3 @@ b4 = KeyboardButton(' Բարեգործություն')
 
 main_menu = ReplyKeyboardMarkup(resize_keyboard=True)
 main_menu.add(b1).row(b2, b3)
-

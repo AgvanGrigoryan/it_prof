@@ -1,9 +1,8 @@
 from aiogram import Dispatcher
 from aiogram.dispatcher.filters import Text
 
-import result
 from create_bot import bot
-from keyboards import settings_case_kb, test_case_kb, client_kb
+from keyboards import settings_case_kb, test_case_kb
 from language import ans_sett_text, ans_msg_err
 
 from select_lang import lang_set, load_lang, FSMClient
@@ -21,7 +20,7 @@ from result import *
 # @dp.message_handler(Text(equals='✨ Test', ignore_case=True), state='*')
 async def test_start(message: types.Message):
     await bot.send_message(message.from_user.id, 'Թեստը սկսված է՝', reply_markup=test_case_kb.test_kb)
-    await test(message)
+    await test(message, message.from_user.id)
 
 
 # @dp.message_handler(Text(equals='⚙ Կարգավորումներ', ignore_case=True), state='*')

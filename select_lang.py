@@ -1,5 +1,3 @@
-import json
-
 from create_bot import bot
 from aiogram import types
 
@@ -56,7 +54,6 @@ async def load_lang(message: types.Message, state: FSMContext):
         async with state.proxy() as data:
             data['lang'] = await lang_code(message)
         await sqlite_db.sql_add_command(state)
-        # hello_message = "Բարև հարգելի օգտատեր, ես քեզ կոգնեմ IT-մասնագիտություն ընտրելու հարցում։\nՍեխմիր _\'✨ Թեստ\'_ կոճակը թեստը սկսելու համար։"
         await bot.send_message(message.from_user.id, await ans_hello_info(), reply_markup=main_menu, parse_mode="Markdown")
 
         await state.finish()

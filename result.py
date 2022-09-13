@@ -1,5 +1,5 @@
 from aiogram import types
-from create_bot import dp, bot
+from create_bot import dp
 from keyboards.client_kb import main_menu
 from questions import *
 from keyboards import questions_kb
@@ -22,26 +22,33 @@ prof_letter['d'] = 0
 prof_letter['e'] = 0
 prof_letter['f'] = 0
 
-i = 0
+test_users = dict()
+global us_id
+us_id = 0
 
 
-# not working
-async def cancel():
-    global i
-    i = 0
+async def cancel(message: types.Message):
+    global test_users
+    if message.from_user.id in test_users.keys():
+        test_users[message.from_user.id] = 0
 
 
-async def test(message: types.Message):
-    # message = callback.data
-    global i
-    if i == len(question):
-        i = 0
-        await message.answer('Թեստը ավարտված է։', reply_markup=main_menu)
-        res = await result()
-        await show_results(res, message)
-    else:
-        await message.answer(text=f"{i + 1}/{len(question)}\n" + question[i], reply_markup=questions_kb.question_kb[i])
-        i += 1
+async def test(message: types.Message, user_id=0):
+    global test_users, us_id
+    if us_id != user_id and user_id not in test_users.keys():
+        us_id = user_id
+        test_users[us_id] = 0
+
+    if user_id in test_users.keys():
+        i = test_users[user_id]
+        if i == len(question):
+            await message.answer('Թեստը ավարտված է։', reply_markup=main_menu)
+            test_users[user_id] = 0
+            res = await result()
+            await show_results(res, message)
+        else:
+            await message.answer(text=f"{i + 1}/{len(question)}\n" + question[i], reply_markup=questions_kb.question_kb[i])
+            test_users[user_id] += 1
         await message.delete()
 
 
@@ -55,14 +62,17 @@ async def result():
 
 
 async def show_results(res, message: types.Message):
+    message_text = "Թեստի արդյունքից որոշվել է որ \nձեզ են համախատասխանում \nհետևյալ ՏՏ-մասնագիտությունները՝\n\n"
     for prof in res:
-        await message.answer(prof)
+        message_text += f'{prof},\n'
+    message_text += '\nՇնորհակալ ենք մեզ վստահելու համար։'
+    await message.answer(message_text)
 
 
 async def count(cb):
     for letter in list(cb.data):
         prof_letter[letter] += 1
-    await test(cb.message)
+    await test(cb.message, cb.from_user.id)
     await cb.answer()
 
 
@@ -73,31 +83,5 @@ async def get_callback(callback: types.CallbackQuery):
 
 @dp.callback_query_handler(text='pass')
 async def get_pass_callback(callback: types.CallbackQuery):
-    await test(callback.message)
+    await test(callback.message, callback.from_user.id)
     await callback.answer()
-
-
-# @dp.callback_query_handler(text='4')
-# async def plus_four(callback: types.CallbackQuery):
-#     await count(callback)
-#
-#
-# @dp.callback_query_handler(text='3')
-# async def plus_three(callback: types.CallbackQuery):
-#     await count(callback)
-#     return callback.inline_message_id
-#
-#
-# @dp.callback_query_handler(text='2')
-# async def plus_two(callback: types.CallbackQuery):
-#     await count(callback)
-#
-#
-# @dp.callback_query_handler(text='1')
-# async def plus_one(callback: types.CallbackQuery):
-#     await count(callback)
-#
-#
-# @dp.callback_query_handler(text='0')
-# async def plus_one(callback: types.CallbackQuery):
-#     await count(callback)

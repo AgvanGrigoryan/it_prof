@@ -1,4 +1,4 @@
-from create_bot import bot, dp
+from create_bot import bot
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import Text
 
@@ -17,7 +17,6 @@ async def command_start(message: types.Message, state: FSMContext):
         await bot.send_message(message.from_user.id, "Hello")
         await lang_set(message, state)
     except:
-        # hello_error = await ans_hello_error()
         await message.reply(await ans_hello_error(), parse_mode='Markdown')
 
 
@@ -33,7 +32,7 @@ async def command_help(message: types.Message):
 async def action_cancel(message: types.Message):
     types.ReplyKeyboardRemove()
     await message.answer("Գլխավոր մենյու՝", reply_markup=client_kb.main_menu)
-    await result.cancel()
+    await result.cancel(message)
 
 
 def register_handlers_client(disp: Dispatcher):

@@ -9,25 +9,20 @@ from answers import *
 # System administrator - e
 # Marketer - f
 
-
 # QUESTION KB
 # Question 1
 q1_a1_btn = InlineKeyboardButton(q1_a1, callback_data='a')
 q1_a2_btn = InlineKeyboardButton(q1_a2, callback_data='pass')
 q1_a3_btn = InlineKeyboardButton(q1_a3, callback_data='pass')
-
 # Question 2
 q2_a1_btn = InlineKeyboardButton(q2_a1, callback_data='c')
 q2_a2_btn = InlineKeyboardButton(q2_a2, callback_data='pass')
-
 # Question 3
 q3_a1_btn = InlineKeyboardButton(q3_a1, callback_data='b')
 q3_a2_btn = InlineKeyboardButton(q3_a2, callback_data='f')
-
 # Question 4
 q4_a1_btn = InlineKeyboardButton(q4_a1, callback_data='e')
 q4_a2_btn = InlineKeyboardButton(q4_a2, callback_data='a')
-
 # Question 5
 q5_a1_btn = InlineKeyboardButton(q5_a1, callback_data='b')
 q5_a2_btn = InlineKeyboardButton(q5_a2, callback_data='d')
