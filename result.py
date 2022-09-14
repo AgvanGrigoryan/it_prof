@@ -23,7 +23,6 @@ prof_letter['e'] = 0
 prof_letter['f'] = 0
 
 test_users = dict()
-global us_id
 us_id = 0
 
 

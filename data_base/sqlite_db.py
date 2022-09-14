@@ -111,44 +111,36 @@ async def lang_info_add_en():
                                                                                             "To start work -> "
                                                                                             "/start.\n\n✨ Test - start "
                                                                                             "the test.\n\n⚙ Settings - "
-                                                                                            "Settings section` you can "
+                                                                                            "Settings section: you can "
                                                                                             "change the language ("
                                                                                             "Русский, Հայերեն, English).",
                                                                                             " ⚠ Unclear command ⚠ "))
     base.commit()
 
 
-# TODODOBAVIT RUSSKIY YAZIK         DOBAVIT RUSSKIY YAZIK         DOBAVIT RUSSKIY YAZIK         DOBAVIT RUSSKIY YAZIK
+
 # TODOPRACENTOV SOVMESTIMOST HASHVEL AMMEN ME MASNAGITUTYAN@
 # TODOHARCERUN PATASXANNER@ TNEL HARCERUN HED, PATASXANNERUN KNOPKANER@ POXEL TNEL 1,2,3 ...(TVEROV)
 async def lang_info_add_ru():
-    cur.execute('INSERT OR REPLACE INTO language VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ('EN',
-                                                                                            "Please select language:",
-                                                                                            "English is selected.",
-                                                                                            "Welcome dear user, I will "
-                                                                                            "guide you in choosing an IT "
-                                                                                            "profession։\nClick the _\'✨ "
-                                                                                            "Test\'_ button to start the "
-                                                                                            "test։",
-                                                                                            "Communicating with the bot "
-                                                                                            "via private emails,"
-                                                                                            "write to [him]("
-                                                                                            "https://t.me"
-                                                                                            "/it_prof_choose_bot)",
-                                                                                            "⬅ Cancel",
-                                                                                            "Main menu:",
-                                                                                            "✨ Test",
-                                                                                            "Test started:",
-                                                                                            "Test finished.",
-                                                                                            "⚙ Settings",
-                                                                                            "Settings section:",
-                                                                                            "Language",
-                                                                                            "❔ Help",
-                                                                                            "To start work -> "
-                                                                                            "/start.\n\n✨ Test - start "
-                                                                                            "the test.\n\n⚙ Settings - "
-                                                                                            "Settings section` you can "
-                                                                                            "change the language ("
+    cur.execute('INSERT OR REPLACE INTO language VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ('RU',
+                                                                                            "Выберите язык:",
+                                                                                            "Выбран русский язык.",
+                                                                                            "Приветствую вас, уважаемый пользователь, я помогу вам в выборе IT-профессии.։\nНажмите кнопку _\'✨ Тест\'_, чтобы начать тест.",
+                                                                                            "Общение с ботом через личные сообщения, напишите [ему](https://t.me/it_prof_choose_bot)",
+                                                                                            "⬅ Назад",
+                                                                                            "Главное меню:",
+                                                                                            "✨ Тест",
+                                                                                            "Тест начат:",
+                                                                                            "Тест закончен.",
+                                                                                            "⚙ Настройки",
+                                                                                            "Раздел настроек:",
+                                                                                            "Язык",
+                                                                                            "❔ Помощь",
+                                                                                            "Чтобы начать работу -> "
+                                                                                            "/start.\n\n✨ Тест - начать "
+                                                                                            "тест.\n\n⚙ Настройки - "
+                                                                                            "Раздел настроек: вы можете "
+                                                                                            "изменить язык ("
                                                                                             "Русский, Հայերեն, English).",
-                                                                                            " ⚠ Unclear command ⚠ "))
+                                                                                            " ⚠ Непонятная команда ⚠ "))
     base.commit()
