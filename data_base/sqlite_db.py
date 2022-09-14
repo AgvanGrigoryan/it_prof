@@ -119,8 +119,8 @@ async def lang_info_add_en():
 
 
 
-# TODOPRACENTOV SOVMESTIMOST HASHVEL AMMEN ME MASNAGITUTYAN@
-# TODOHARCERUN PATASXANNER@ TNEL HARCERUN HED, PATASXANNERUN KNOPKANER@ POXEL TNEL 1,2,3 ...(TVEROV)
+# TODO:PRACENTOV SOVMESTIMOST HASHVEL AMMEN ME MASNAGITUTYAN@
+# TODO:HARCERUN PATASXANNER@ TNEL HARCERUN HED, PATASXANNERUN KNOPKANER@ POXEL TNEL 1,2,3 ...(TVEROV)
 async def lang_info_add_ru():
     cur.execute('INSERT OR REPLACE INTO language VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ('RU',
                                                                                             "Выберите язык:",

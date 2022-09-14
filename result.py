@@ -14,14 +14,6 @@ profession['d'] = 'Info Bezaposnost'
 profession['e'] = 'Sis. admin'
 profession['f'] = 'marketing'
 
-prof_letter = dict()
-prof_letter['a'] = 0
-prof_letter['b'] = 0
-prof_letter['c'] = 0
-prof_letter['d'] = 0
-prof_letter['e'] = 0
-prof_letter['f'] = 0
-
 test_users = dict()
 us_id = 0
 
@@ -54,12 +46,6 @@ async def cancel(message: types.Message):
 
 async def test(message: types.Message, user_id=0):
     """Поочередный вывод тестов"""
-    # show user prof_count
-    if user_id in users.keys():
-        user = users[user_id]
-        for us_prof in user.prof_count:
-            print(user.prof_count[us_prof])
-        print('\n')
 
     global us_id
     if us_id != user_id and user_id not in users.keys():
@@ -84,20 +70,24 @@ async def test(message: types.Message, user_id=0):
 
 async def result(user_id):
     """Считает результаты теста"""
+    true_var = 7
     user_res = users[user_id].prof_count
-    letter = user_res[max(user_res, key=user_res.get)]
-    results = []
+    letter = max(user_res, key=user_res.get)
+    max_num = user_res[letter]
+    results = dict()
     for let in user_res:
-        if user_res[let] == letter:
-            results.append(profession[let])
+        print(let)
+        if user_res[let] == max_num:
+            results[profession[let]] = round((max_num/true_var)*100, 2)
     return results
 
 
 async def show_results(res, message: types.Message):
+    print(res)
     """Отображает результаты теста"""
     message_text = "Թեստի արդյունքից որոշվել է որ \nձեզ են համախատասխանում \nհետևյալ ՏՏ-մասնագիտությունները՝\n\n"
-    for prof in res:
-        message_text += f'*{prof},*\n'
+    for key in res.keys():
+        message_text += f'*{key} {res[key]}%,*\n'
     message_text += '\nՇնորհակալ ենք մեզ վստահելու համար։'
     await message.answer(message_text, parse_mode='Markdown')
 
