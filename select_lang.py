@@ -3,13 +3,13 @@ from aiogram import types
 
 from data_base import sqlite_db
 
-from keyboards.client_kb import main_menu
+from keyboards.client_kb import main_menu_kb
 from keyboards.lang_select_kb import select_lang_kb
 
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 
-from language import ans_hello_info
+from language import ans_sett_text, ans_hello_info
 
 ID = None
 
@@ -40,6 +40,7 @@ async def lang_code(message):
 async def lang_set(message: types.Message, state: FSMContext):
     global ID
     ID = message.from_user.id
+
     await FSMClient.user_id.set()
     async with state.proxy() as data:
         data['user_id'] = message.from_user.id
@@ -54,6 +55,8 @@ async def load_lang(message: types.Message, state: FSMContext):
         async with state.proxy() as data:
             data['lang'] = await lang_code(message)
         await sqlite_db.sql_add_command(state)
-        await bot.send_message(message.from_user.id, await ans_hello_info(), reply_markup=main_menu, parse_mode="Markdown")
+        hello_info = await ans_hello_info()
+        main_menu = await main_menu_kb()
+        await bot.send_message(message.from_user.id, hello_info, reply_markup=main_menu, parse_mode="Markdown")
 
         await state.finish()

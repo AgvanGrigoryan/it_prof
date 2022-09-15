@@ -9,8 +9,12 @@ async def on_startup(_):
     sqlite_db.sql_start()
 
 
+
 client.register_handlers_client(dp)
 other.register_handlers_other(dp)
+
+
+
 
 
 # @dp.callback_query_handler(func=lambda c: c.date == '1')

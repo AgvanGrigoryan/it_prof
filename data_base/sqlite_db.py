@@ -1,5 +1,6 @@
 import sqlite3 as sq
 
+from handlers import client
 from language import answer
 
 global base, cur
@@ -13,7 +14,6 @@ def sql_start():
         print('Database connected.')
     base.execute('CREATE TABLE IF NOT EXISTS users(user_id INTEGER PRIMARY KEY, lang TEXT)')
     base.commit()
-    # create@ chi ashxadi, sax chi sarqe
     base.execute('CREATE TABLE IF NOT EXISTS language(lang PRIMARY KEY, choose_lang, choosed_lang, hello_info, '
                  'hello_error, cancel_btn, main_menu, test_btn, tst_started, tst_finished, sett_btn, sett_text, '
                  'sett_lang_btn, help_btn, '
@@ -31,6 +31,7 @@ async def sql_add_command(state):
             await update_user_lang(data)
             res = await check_user_lang(data)
         await answer(res[1])
+        # await client.translate_client()
 
 
 async def check_user_lang(data):
@@ -43,7 +44,7 @@ async def check_user_lang(data):
 
 
 async def add_user_lang(data):
-    cur.execute("INSERT INTO users VALUES (?, ?)", (data['user_id'], 'EN'))
+    cur.execute("INSERT INTO users VALUES (?, ?)", (data['user_id'], data['lang']))
     base.commit()
 
 

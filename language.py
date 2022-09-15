@@ -1,90 +1,117 @@
+import sqlite3
 import sqlite3 as sq
+
 
 # main_menu, test_btn, sett_btn, sett_text, sett_lang_btn, help_btn, help_info
 
-global trans, base, cur
+
+# global base, cur, trans
+trans: tuple
+base: sqlite3.Connection
+cur: sqlite3.Cursor
+
+choose_lang = ''
+choosed_lang = ''
+hello_info = ''
+hello_error = 'Communicating with the bot via private emails, write to [him](https://t.me/it_prof_choose_bot)'
+cancel_btn = ''
+main_menu = ''
+test_btn = ''
+test_started = ''
+test_finished = ''
+sett_btn = ''
+sett_text = ''
+sett_lang_btn = ''
+help_btn = ''
+help_info = ''
+msg_err = ''
 
 
 async def answer(lang):
     global base, cur, trans
+    global choose_lang, choosed_lang, hello_info, hello_error, cancel_btn, main_menu, test_btn, test_started, \
+        test_finished, sett_btn, sett_text, sett_lang_btn, help_btn, help_info, msg_err
     base = sq.connect("choose_it_prof.db")
     cur = base.cursor()
     trans = base.execute("SELECT * FROM language WHERE lang=?", (lang,)).fetchone()
     base.commit()
+
     # if base:
     #     print('Database connected.')
+    choose_lang = trans[1]
+    choosed_lang = trans[2]
+    hello_info = trans[3]
+    cancel_btn = trans[5]
+    main_menu = trans[6]
+    test_btn = trans[7]
+    test_started = trans[8]
+    test_finished = trans[9]
+    sett_btn = trans[10]
+    sett_text = trans[11]
+    sett_lang_btn = trans[12]
+    help_btn = trans[13]
+    help_info = trans[14]
+    msg_err = trans[15]
+
+    # await client.translate_client()
+    # await translate_other()
 
 
 async def ans_choose_lang():
-    global trans
-    return trans[1]
+    return choose_lang
 
 
 async def ans_choosed_lang():
-    global trans
-    return trans[2]
+    return choosed_lang
 
 
 async def ans_hello_info():
-    global trans
-    return trans[3]
+    return hello_info
 
 
 async def ans_hello_error():
-    global trans
-    return trans[4]
+    return hello_error
 
 
 async def ans_cancel_btn():
-    global trans
-    return trans[5]
+    return cancel_btn
 
 
 async def ans_main_menu():
-    global trans
-    return trans[6]
+    return main_menu
 
 
 async def ans_test_btn():
-    global trans
-    return trans[7]
+    return test_btn
 
 
 async def ans_test_started():
-    global trans
-    return trans[8]
+    return test_started
 
 
 async def ans_test_finished():
-    global trans
-    return trans[9]
+    return test_finished
 
 
 async def ans_sett_btn():
-    global trans
-    return trans[10]
+    return sett_btn
 
 
 async def ans_sett_text():
-    global trans
-    return trans[11]
+    return sett_text
 
 
 async def ans_sett_lang_btn():
-    global trans
-    return trans[12]
+    return sett_lang_btn
 
 
 async def ans_help_btn():
-    global trans
-    return trans[13]
+    return help_btn
 
 
 async def ans_help_info():
-    global trans
-    return trans[14]
+    return help_info
 
 
 async def ans_msg_err():
-    global trans
-    return trans[15]
+    return msg_err

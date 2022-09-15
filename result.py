@@ -1,6 +1,6 @@
 from aiogram import types
 from create_bot import dp
-from keyboards.client_kb import main_menu
+from keyboards.client_kb import main_menu_kb
 from questions import *
 from keyboards import questions_kb
 
@@ -20,7 +20,7 @@ us_id = 0
 users = dict()
 
 
-class User_test():
+class User_test:
     def __init__(self, user_id):
         self.id = user_id
         self.prof_count = dict()
@@ -57,6 +57,7 @@ async def test(message: types.Message, user_id=0):
         user = users[user_id]
         i = user.user_question
         if i == len(question):
+            main_menu = await main_menu_kb()
             await message.answer('Թեստը ավարտված է։', reply_markup=main_menu)
             user.user_question = 0
             res = await result(user_id)

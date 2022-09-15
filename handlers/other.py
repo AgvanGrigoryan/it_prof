@@ -3,36 +3,40 @@ from aiogram.dispatcher.filters import Text
 
 from create_bot import bot
 from keyboards import settings_case_kb, test_case_kb
-from language import ans_sett_text, ans_msg_err
+from language import ans_sett_text, ans_msg_err, ans_sett_btn, ans_test_started
 
 from select_lang import lang_set, load_lang, FSMClient
 from result import *
 
 
-# async def test_cancel(message: types.Message):
-#     types.ReplyKeyboardRemove()
-#     await message.answer("Գլխավոր մենյու՝", reply_markup=client_kb.main_menu)
-#
-#
-#     await result.cancel()
+sett_text = ''
+msg_err = ''
+sett_btn = ''
+test_started = ''
+
+
+# async def translate_other():
+#     global sett_text, msg_err, sett_btn, test_started
+#     sett_text = await ans_sett_text()
+#     msg_err = await ans_msg_err()
+#     sett_btn = await ans_sett_btn()
+#     test_started = await ans_test_started()
 
 
 # @dp.message_handler(Text(equals='✨ Test', ignore_case=True), state='*')
 async def test_start(message: types.Message):
-    await bot.send_message(message.from_user.id, 'Թեստը սկսված է՝', reply_markup=test_case_kb.test_kb)
+    await bot.send_message(message.from_user.id, test_started, reply_markup=test_case_kb.test_kb)
     await test(message, message.from_user.id)
 
 
 # @dp.message_handler(Text(equals='⚙ Կարգավորումներ', ignore_case=True), state='*')
 async def settings_open(message: types.Message):
-    sett_text = await ans_sett_text()
     # 'Կարգավորումների բաժին՝'
     await bot.send_message(message.from_user.id, sett_text, reply_markup=settings_case_kb.settings_kb)
 
 
 # @dp.message_handler()
 async def all_message(message: types.Message):
-    msg_err = await ans_msg_err()
     # "⚠ Անհասկանալի հրաման ⚠"
     await message.reply(msg_err)
     await message.delete()
@@ -41,7 +45,7 @@ async def all_message(message: types.Message):
 def register_handlers_other(disp: Dispatcher):
     disp.register_message_handler(test_start, commands=['test'])
     disp.register_message_handler(test_start, Text(equals='✨ Թեստ', ignore_case=True), state="*")
-    disp.register_message_handler(settings_open, Text(equals='⚙ Կարգավորումներ', ignore_case=True), state='*')
+    disp.register_message_handler(settings_open, Text(equals=sett_btn, ignore_case=True), state='*')
     disp.register_message_handler(settings_open, commands=['settings'])
     disp.register_message_handler(lang_set, Text(equals='Լեզու', ignore_case=True), state='*')
     disp.register_message_handler(load_lang, state=FSMClient.lang)
