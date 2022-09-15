@@ -90,9 +90,12 @@ async def lang_info_add_en():
                                                                                             "Please select language:",
                                                                                             "English is selected.",
                                                                                             "Welcome dear user, I will "
-                                                                                            "guide you in choosing an IT "
-                                                                                            "profession։\nClick the _\'✨ "
-                                                                                            "Test\'_ button to start the "
+                                                                                            "guide you in choosing an "
+                                                                                            "IT "
+                                                                                            "profession։\nClick the "
+                                                                                            "_\'✨ "
+                                                                                            "Test\'_ button to start "
+                                                                                            "the "
                                                                                             "test։",
                                                                                             "Communicating with the bot "
                                                                                             "via private emails,"
@@ -118,15 +121,20 @@ async def lang_info_add_en():
     base.commit()
 
 
-
-# TODO:PRACENTOV SOVMESTIMOST HASHVEL AMMEN ME MASNAGITUTYAN@
-# TODO:HARCERUN PATASXANNER@ TNEL HARCERUN HED, PATASXANNERUN KNOPKANER@ POXEL TNEL 1,2,3 ...(TVEROV)
 async def lang_info_add_ru():
     cur.execute('INSERT OR REPLACE INTO language VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', ('RU',
                                                                                             "Выберите язык:",
                                                                                             "Выбран русский язык.",
-                                                                                            "Приветствую вас, уважаемый пользователь, я помогу вам в выборе IT-профессии.։\nНажмите кнопку _\'✨ Тест\'_, чтобы начать тест.",
-                                                                                            "Общение с ботом через личные сообщения, напишите [ему](https://t.me/it_prof_choose_bot)",
+                                                                                            "Приветствую вас, "
+                                                                                            "уважаемый пользователь, "
+                                                                                            "я помогу вам в выборе "
+                                                                                            "IT-профессии.։\nНажмите "
+                                                                                            "кнопку _\'✨ Тест\'_, "
+                                                                                            "чтобы начать тест.",
+                                                                                            "Общение с ботом через "
+                                                                                            "личные сообщения, "
+                                                                                            "напишите [ему]("
+                                                                                            "https://t.me/it_prof_choose_bot)",
                                                                                             "⬅ Назад",
                                                                                             "Главное меню:",
                                                                                             "✨ Тест",
