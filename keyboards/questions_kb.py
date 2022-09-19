@@ -1,5 +1,5 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from answers import *
+import answers
 
 # HINTS
 # Programmer - a
@@ -11,60 +11,60 @@ from answers import *
 
 # QUESTION KB
 # Question 1
-q1_a1_btn = InlineKeyboardButton(q1_a1, callback_data='a')
-q1_a2_btn = InlineKeyboardButton(q1_a2, callback_data='pass')
-q1_a3_btn = InlineKeyboardButton(q1_a3, callback_data='pass')
+q1_a1_btn = InlineKeyboardButton(answers.q1_a1, callback_data='a')
+q1_a2_btn = InlineKeyboardButton(answers.q1_a2, callback_data='pass')
+q1_a3_btn = InlineKeyboardButton(answers.q1_a3, callback_data='pass')
 # Question 2
-q2_a1_btn = InlineKeyboardButton(q2_a1, callback_data='c')
-q2_a2_btn = InlineKeyboardButton(q2_a2, callback_data='pass')
+q2_a1_btn = InlineKeyboardButton(answers.q2_a1, callback_data='c')
+q2_a2_btn = InlineKeyboardButton(answers.q2_a2, callback_data='pass')
 # Question 3
-q3_a1_btn = InlineKeyboardButton(q3_a1, callback_data='b')
-q3_a2_btn = InlineKeyboardButton(q3_a2, callback_data='f')
+q3_a1_btn = InlineKeyboardButton(answers.q3_a1, callback_data='b')
+q3_a2_btn = InlineKeyboardButton(answers.q3_a2, callback_data='f')
 # Question 4
-q4_a1_btn = InlineKeyboardButton(q4_a1, callback_data='e')
-q4_a2_btn = InlineKeyboardButton(q4_a2, callback_data='a')
+q4_a1_btn = InlineKeyboardButton(answers.q4_a1, callback_data='e')
+q4_a2_btn = InlineKeyboardButton(answers.q4_a2, callback_data='a')
 # Question 5
-q5_a1_btn = InlineKeyboardButton(q5_a1, callback_data='b')
-q5_a2_btn = InlineKeyboardButton(q5_a2, callback_data='d')
+q5_a1_btn = InlineKeyboardButton(answers.q5_a1, callback_data='b')
+q5_a2_btn = InlineKeyboardButton(answers.q5_a2, callback_data='d')
 # Question 6
-q6_a1_btn = InlineKeyboardButton(q6_a1, callback_data='a')
-q6_a2_btn = InlineKeyboardButton(q6_a2, callback_data='d')
+q6_a1_btn = InlineKeyboardButton(answers.q6_a1, callback_data='a')
+q6_a2_btn = InlineKeyboardButton(answers.q6_a2, callback_data='d')
 # Question 7
-q7_a1_btn = InlineKeyboardButton(q7_a1, callback_data='b')
-q7_a2_btn = InlineKeyboardButton(q7_a2, callback_data='e')
+q7_a1_btn = InlineKeyboardButton(answers.q7_a1, callback_data='b')
+q7_a2_btn = InlineKeyboardButton(answers.q7_a2, callback_data='e')
 # Question 8
-q8_a1_btn = InlineKeyboardButton(q8_a1, callback_data='a')
-q8_a2_btn = InlineKeyboardButton(q8_a2, callback_data='c')
+q8_a1_btn = InlineKeyboardButton(answers.q8_a1, callback_data='a')
+q8_a2_btn = InlineKeyboardButton(answers.q8_a2, callback_data='c')
 # Question 9
-q9_a1_btn = InlineKeyboardButton(q9_a1, callback_data='f')
-q9_a2_btn = InlineKeyboardButton(q9_a2, callback_data='e')
+q9_a1_btn = InlineKeyboardButton(answers.q9_a1, callback_data='f')
+q9_a2_btn = InlineKeyboardButton(answers.q9_a2, callback_data='e')
 # Question 10
-q10_a1_btn = InlineKeyboardButton(q10_a1, callback_data='b')
-q10_a2_btn = InlineKeyboardButton(q10_a2, callback_data='c')
+q10_a1_btn = InlineKeyboardButton(answers.q10_a1, callback_data='b')
+q10_a2_btn = InlineKeyboardButton(answers.q10_a2, callback_data='c')
 # Question 11
-q11_a1_btn = InlineKeyboardButton(q11_a1, callback_data='a')
-q11_a2_btn = InlineKeyboardButton(q11_a2, callback_data='f')
+q11_a1_btn = InlineKeyboardButton(answers.q11_a1, callback_data='a')
+q11_a2_btn = InlineKeyboardButton(answers.q11_a2, callback_data='f')
 # Question 12
-q12_a1_btn = InlineKeyboardButton(q12_a1, callback_data='c')
-q12_a2_btn = InlineKeyboardButton(q12_a2, callback_data='d')
+q12_a1_btn = InlineKeyboardButton(answers.q12_a1, callback_data='c')
+q12_a2_btn = InlineKeyboardButton(answers.q12_a2, callback_data='d')
 # Question 13
-q13_a1_btn = InlineKeyboardButton(q13_a1, callback_data='f')
-q13_a2_btn = InlineKeyboardButton(q13_a2, callback_data='d')
+q13_a1_btn = InlineKeyboardButton(answers.q13_a1, callback_data='f')
+q13_a2_btn = InlineKeyboardButton(answers.q13_a2, callback_data='d')
 # Question 14
-q14_a1_btn = InlineKeyboardButton(q14_a1, callback_data='c')
-q14_a2_btn = InlineKeyboardButton(q14_a2, callback_data='abde')
+q14_a1_btn = InlineKeyboardButton(answers.q14_a1, callback_data='c')
+q14_a2_btn = InlineKeyboardButton(answers.q14_a2, callback_data='abde')
 # Question 15
-q15_a1_btn = InlineKeyboardButton(q15_a1, callback_data='e')
-q15_a2_btn = InlineKeyboardButton(q15_a2, callback_data='d')
+q15_a1_btn = InlineKeyboardButton(answers.q15_a1, callback_data='e')
+q15_a2_btn = InlineKeyboardButton(answers.q15_a2, callback_data='d')
 # Question 16
-q16_a1_btn = InlineKeyboardButton(q16_a1, callback_data='c')
-q16_a2_btn = InlineKeyboardButton(q16_a2, callback_data='f')
+q16_a1_btn = InlineKeyboardButton(answers.q16_a1, callback_data='c')
+q16_a2_btn = InlineKeyboardButton(answers.q16_a2, callback_data='f')
 # Question 17
-q17_a1_btn = InlineKeyboardButton(q17_a1, callback_data='e')
-q17_a2_btn = InlineKeyboardButton(q17_a2, callback_data='b')
+q17_a1_btn = InlineKeyboardButton(answers.q17_a1, callback_data='e')
+q17_a2_btn = InlineKeyboardButton(answers.q17_a2, callback_data='b')
 # Question 18
-q18_a1_btn = InlineKeyboardButton(q18_a1, callback_data='abcdef')
-q18_a2_btn = InlineKeyboardButton(q18_a2, callback_data='pass')
+q18_a1_btn = InlineKeyboardButton(answers.q18_a1, callback_data='abcdef')
+q18_a2_btn = InlineKeyboardButton(answers.q18_a2, callback_data='pass')
 
 question_1_kb = InlineKeyboardMarkup().add(q1_a1_btn).add(q1_a2_btn).add(q1_a3_btn)
 

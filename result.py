@@ -1,7 +1,7 @@
 from aiogram import types
 from create_bot import dp
 from keyboards.client_kb import main_menu_kb
-from questions import *
+from questions import question
 from keyboards import questions_kb
 
 callback_values = ['a', 'b', 'c', 'd', 'e', 'f', 'abde', 'abcdef']
@@ -77,14 +77,12 @@ async def result(user_id):
     max_num = user_res[letter]
     results = dict()
     for let in user_res:
-        print(let)
         if user_res[let] == max_num:
             results[profession[let]] = round((max_num/true_var)*100, 2)
     return results
 
 
 async def show_results(res, message: types.Message):
-    print(res)
     """Отображает результаты теста"""
     message_text = "Թեստի արդյունքից որոշվել է որ \nձեզ են համախատասխանում \nհետևյալ ՏՏ-մասնագիտությունները՝\n\n"
     for key in res.keys():

@@ -1,10 +1,9 @@
 import sqlite3 as sq
 
-from handlers import client
 from language import answer
 
 global base, cur
-
+# answer: types.FunctionType
 
 def sql_start():
     global base, cur

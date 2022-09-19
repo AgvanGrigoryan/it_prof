@@ -1,7 +1,10 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
-cancel = KeyboardButton('⬅ չեղարկել')
+cancel_button: str
 
-test_kb = ReplyKeyboardMarkup(resize_keyboard=True)
 
-test_kb.add(cancel)
+async def test_kb_case():
+    cancel = KeyboardButton(cancel_button)
+    test_kb = ReplyKeyboardMarkup(resize_keyboard=True)
+
+    return test_kb.add(cancel)
