@@ -83,6 +83,7 @@ async def result(user_id):
 
 
 async def show_results(res, message: types.Message):
+
     """Отображает результаты теста"""
     message_text = "Թեստի արդյունքից որոշվել է որ \nձեզ են համախատասխանում \nհետևյալ ՏՏ-մասնագիտությունները՝\n\n"
     for key in res.keys():
