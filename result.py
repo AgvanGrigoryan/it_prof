@@ -3,16 +3,18 @@ from create_bot import dp
 from keyboards.client_kb import main_menu_kb
 from questions import question
 from keyboards import questions_kb
+import sqlite3 as sq
+
 
 callback_values = ['a', 'b', 'c', 'd', 'e', 'f', 'abde', 'abcdef']
 
 profession = dict()
-profession['a'] = 'Programmist'
-profession['b'] = 'Testirovshik'
-profession['c'] = 'Designer'
-profession['d'] = 'Info Bezaposnost'
-profession['e'] = 'Sis. admin'
-profession['f'] = 'marketing'
+profession['a'] = 'Programming'
+profession['b'] = 'Software testing'
+profession['c'] = 'Design'
+profession['d'] = 'Information Security'
+profession['e'] = 'System Administration'
+profession['f'] = 'Marketing'
 
 test_users = dict()
 us_id = 0
@@ -36,12 +38,22 @@ class User_test:
     def increment(self):
         self.user_question += 1
 
+    def reset(self):
+        self.prof_count = dict()
+        self.prof_count['a'] = 0
+        self.prof_count['b'] = 0
+        self.prof_count['c'] = 0
+        self.prof_count['d'] = 0
+        self.prof_count['e'] = 0
+        self.prof_count['f'] = 0
+
+        self.user_question = 0
 
 async def cancel(message: types.Message):
     """Обнуляет данные теста текущего пользователя"""
     id = message.from_user.id
     if message.from_user.id in users.keys():
-        users[id].user_question = 0
+        users[id].reset()
 
 
 async def test(message: types.Message, user_id=0):
@@ -59,9 +71,9 @@ async def test(message: types.Message, user_id=0):
         if i == len(question):
             main_menu = await main_menu_kb()
             await message.answer('Թեստը ավարտված է։', reply_markup=main_menu)
-            user.user_question = 0
             res = await result(user_id)
             await show_results(res, message)
+            user.reset()
         else:
             await message.delete()
             await message.answer(text=f"{i + 1}/{len(question)}\n" + question[i],
@@ -76,21 +88,33 @@ async def result(user_id):
     letter = max(user_res, key=user_res.get)
     max_num = user_res[letter]
     results = dict()
+    courses = []
     for let in user_res:
+        base = sq.connect("choose_it_prof.db")
+        cur = base.cursor()
         if user_res[let] == max_num:
+            query_result = cur.execute("SELECT `link` FROM  `courses` WHERE `prof_letter` = ? LIMIT 2",
+                                       (let,)).fetchmany(2)
+            for row in query_result:
+                courses.append(row[0])
+
             results[profession[let]] = round((max_num/true_var)*100, 2)
-    return results
+    # users[user_id].reset()
+    return [results, courses]
 
 
 async def show_results(res, message: types.Message):
-
+    prof = res[0]
+    courses = res[1]
     """Отображает результаты теста"""
     message_text = "Թեստի արդյունքից որոշվել է որ \nձեզ են համախատասխանում \nհետևյալ ՏՏ-մասնագիտությունները՝\n\n"
-    for key in res.keys():
-        message_text += f'*{key} {res[key]}%,*\n'
+    for key in prof.keys():
+        message_text += f'*{key} {prof[key]}%,*\n'
     message_text += '\nՇնորհակալ ենք մեզ վստահելու համար։'
     await message.answer(message_text, parse_mode='Markdown')
-
+    await message.answer("Ձեզ ենք առաչարկում հետևյալ կուրսերը՝")
+    for link in courses:
+        await message.answer(link)
 
 async def count(cb):
     """Собирает запросы и распределяет ответы по профессиям"""

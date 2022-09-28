@@ -1313,98 +1313,196 @@
     <argument id="481" parent="165">
       <Position>1</Position>
     </argument>
-    <table id="482" parent="166" name="language"/>
-    <table id="483" parent="166" name="sqlite_master">
+    <table id="482" parent="166" name="courses"/>
+    <table id="483" parent="166" name="language"/>
+    <table id="484" parent="166" name="questions"/>
+    <table id="485" parent="166" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="484" parent="166" name="users"/>
-    <column id="485" parent="482" name="lang">
+    <table id="486" parent="166" name="sqlite_sequence">
+      <System>1</System>
+    </table>
+    <table id="487" parent="166" name="users"/>
+    <column id="488" parent="482" name="id">
+      <AutoIncrement>1</AutoIncrement>
+      <DataType>INTEGER|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="486" parent="482" name="choose_lang">
+    <column id="489" parent="482" name="prof_letter">
+      <DataType>VARCHAR|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="487" parent="482" name="choosed_lang">
+    <column id="490" parent="482" name="link">
+      <DataType>TEXT|0s</DataType>
+      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="488" parent="482" name="hello_info">
+    <key id="491" parent="482">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="492" parent="483" name="lang">
+      <Position>1</Position>
+    </column>
+    <column id="493" parent="483" name="choose_lang">
+      <Position>2</Position>
+    </column>
+    <column id="494" parent="483" name="choosed_lang">
+      <Position>3</Position>
+    </column>
+    <column id="495" parent="483" name="hello_info">
       <Position>4</Position>
     </column>
-    <column id="489" parent="482" name="hello_error">
+    <column id="496" parent="483" name="hello_error">
       <Position>5</Position>
     </column>
-    <column id="490" parent="482" name="cancel_btn">
+    <column id="497" parent="483" name="cancel_btn">
       <Position>6</Position>
     </column>
-    <column id="491" parent="482" name="main_menu">
+    <column id="498" parent="483" name="main_menu">
       <Position>7</Position>
     </column>
-    <column id="492" parent="482" name="test_btn">
+    <column id="499" parent="483" name="test_btn">
       <Position>8</Position>
     </column>
-    <column id="493" parent="482" name="tst_started">
+    <column id="500" parent="483" name="tst_started">
       <Position>9</Position>
     </column>
-    <column id="494" parent="482" name="tst_finished">
+    <column id="501" parent="483" name="tst_finished">
       <Position>10</Position>
     </column>
-    <column id="495" parent="482" name="sett_btn">
+    <column id="502" parent="483" name="sett_btn">
       <Position>11</Position>
     </column>
-    <column id="496" parent="482" name="sett_text">
+    <column id="503" parent="483" name="sett_text">
       <Position>12</Position>
     </column>
-    <column id="497" parent="482" name="sett_lang_btn">
+    <column id="504" parent="483" name="sett_lang_btn">
       <Position>13</Position>
     </column>
-    <column id="498" parent="482" name="help_btn">
+    <column id="505" parent="483" name="help_btn">
       <Position>14</Position>
     </column>
-    <column id="499" parent="482" name="help_info">
+    <column id="506" parent="483" name="help_info">
       <Position>15</Position>
     </column>
-    <column id="500" parent="482" name="msg_err">
+    <column id="507" parent="483" name="msg_err">
       <Position>16</Position>
     </column>
-    <index id="501" parent="482" name="sqlite_autoindex_language_1">
+    <index id="508" parent="483" name="sqlite_autoindex_language_1">
       <ColNames>lang</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="502" parent="482">
+    <key id="509" parent="483">
       <ColNames>lang</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_language_1</UnderlyingIndexName>
     </key>
-    <column id="503" parent="483" name="type">
+    <column id="510" parent="484" name="lang">
+      <Position>1</Position>
+    </column>
+    <column id="511" parent="484" name="question_1">
+      <Position>2</Position>
+    </column>
+    <column id="512" parent="484" name="question_2">
+      <Position>3</Position>
+    </column>
+    <column id="513" parent="484" name="question_3">
+      <Position>4</Position>
+    </column>
+    <column id="514" parent="484" name="question_4">
+      <Position>5</Position>
+    </column>
+    <column id="515" parent="484" name="question_5">
+      <Position>6</Position>
+    </column>
+    <column id="516" parent="484" name="question_6">
+      <Position>7</Position>
+    </column>
+    <column id="517" parent="484" name="question_7">
+      <Position>8</Position>
+    </column>
+    <column id="518" parent="484" name="question_8">
+      <Position>9</Position>
+    </column>
+    <column id="519" parent="484" name="question_9">
+      <Position>10</Position>
+    </column>
+    <column id="520" parent="484" name="question_10">
+      <Position>11</Position>
+    </column>
+    <column id="521" parent="484" name="question_11">
+      <Position>12</Position>
+    </column>
+    <column id="522" parent="484" name="question_12">
+      <Position>13</Position>
+    </column>
+    <column id="523" parent="484" name="question_13">
+      <Position>14</Position>
+    </column>
+    <column id="524" parent="484" name="question_14">
+      <Position>15</Position>
+    </column>
+    <column id="525" parent="484" name="question_15">
+      <Position>16</Position>
+    </column>
+    <column id="526" parent="484" name="question_16">
+      <Position>17</Position>
+    </column>
+    <column id="527" parent="484" name="question_17">
+      <Position>18</Position>
+    </column>
+    <column id="528" parent="484" name="question_18">
+      <Position>19</Position>
+    </column>
+    <index id="529" parent="484" name="sqlite_autoindex_questions_1">
+      <ColNames>lang</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="530" parent="484">
+      <ColNames>lang</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_questions_1</UnderlyingIndexName>
+    </key>
+    <column id="531" parent="485" name="type">
       <DataType>TEXT|0s</DataType>
       <Position>1</Position>
     </column>
-    <column id="504" parent="483" name="name">
+    <column id="532" parent="485" name="name">
       <DataType>TEXT|0s</DataType>
       <Position>2</Position>
     </column>
-    <column id="505" parent="483" name="tbl_name">
+    <column id="533" parent="485" name="tbl_name">
       <DataType>TEXT|0s</DataType>
       <Position>3</Position>
     </column>
-    <column id="506" parent="483" name="rootpage">
+    <column id="534" parent="485" name="rootpage">
       <DataType>INT|0s</DataType>
       <Position>4</Position>
     </column>
-    <column id="507" parent="483" name="sql">
+    <column id="535" parent="485" name="sql">
       <DataType>TEXT|0s</DataType>
       <Position>5</Position>
     </column>
-    <column id="508" parent="484" name="user_id">
+    <column id="536" parent="486" name="name">
+      <Position>1</Position>
+    </column>
+    <column id="537" parent="486" name="seq">
+      <Position>2</Position>
+    </column>
+    <column id="538" parent="487" name="user_id">
       <DataType>INTEGER|0s</DataType>
       <Position>1</Position>
     </column>
-    <column id="509" parent="484" name="lang">
+    <column id="539" parent="487" name="lang">
       <DataType>TEXT|0s</DataType>
       <Position>2</Position>
     </column>
-    <key id="510" parent="484">
+    <key id="540" parent="487">
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
