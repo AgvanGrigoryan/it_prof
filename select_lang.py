@@ -35,7 +35,7 @@ async def lang_code(message):
 
 
 # Language select dialog start
-# @dp.message_handler(commands='setLanguage', state=FSMClient.user_id)
+# @dp.message_handler(commands='lang', state=FSMClient.user_id)
 async def lang_set(message: types.Message, state: FSMContext):
     global ID
     ID = message.from_user.id

@@ -5,7 +5,7 @@ question = []
 
 
 async def set_questions(lang: str):
-    global  question
+    global question
     question.clear()
     base = sq.connect("choose_it_prof.db")
     cur = base.cursor()

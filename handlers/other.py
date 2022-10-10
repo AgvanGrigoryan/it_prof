@@ -3,7 +3,8 @@ from aiogram import Dispatcher, types
 from create_bot import bot
 from keyboards.settings_case_kb import settings_kb
 from keyboards.test_case_kb import test_kb_case
-from result import test
+from result import test, count
+
 
 
 
@@ -12,7 +13,6 @@ settings_text: str
 message_error: str
 test_button: str
 settings_button: str
-language_button: str
 test_started: str
 
 
@@ -37,6 +37,11 @@ async def settings_open(message: types.Message):
     setting_kb = await settings_kb()
     await bot.send_message(message.from_user.id, settings_text, reply_markup=setting_kb)
 
+async def test_reply(message: types.Message):
+    # await bot.send_message(message.from_user.id, "Test is complete")
+    await count(message)
+
+
 
 # @dp.message_handler()
 async def all_message(message: types.Message):
@@ -44,13 +49,18 @@ async def all_message(message: types.Message):
     await message.reply(message_error)
     await message.delete()
 
-
+# test_answers = ['yes', 'almostYes', 'i don\'t know', 'almost no', 'no']
 def register_handlers_other(disp: Dispatcher):
     disp.register_message_handler(test_start, commands=['test'])
     disp.register_message_handler(test_start, lambda message: message.text == test_button)
     disp.register_message_handler(settings_open, lambda message: message.text == settings_button)
     disp.register_message_handler(settings_open, commands=['settings'])
-    # todolizun poxel@ nastroykaneren chi ashxadi
+    disp.register_message_handler(test_reply, lambda message: message.text == 'yes')
+    disp.register_message_handler(test_reply, lambda message: message.text == 'almost yes')
+    disp.register_message_handler(test_reply, lambda message: message.text == 'i don\'t know')
+    disp.register_message_handler(test_reply, lambda message: message.text == 'almost no')
+    disp.register_message_handler(test_reply, lambda message: message.text == 'no')
+
     # disp.register_message_handler(lang_set, lambda message: message.text == language_button)
     # disp.register_message_handler(load_lang, state=FSMClient.lang)
-    disp.register_message_handler(all_message)
+    # disp.register_message_handler(all_message)

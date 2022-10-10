@@ -4,7 +4,7 @@ from time import sleep
 
 import select_lang
 from handlers import client, other
-from keyboards import test_case_kb, settings_case_kb, client_kb
+from keyboards import test_case_kb, settings_case_kb, client_kb, help_case_kb
 
 # global base, cur, trans
 trans: tuple
@@ -13,7 +13,7 @@ cur: sqlite3.Cursor
 
 choose_lang: str
 choosed_lang: str
-hello_info: str
+hello_info = "Hello"
 hello_err = 'Communicating with the bot via private emails, write to [him](https://t.me/it_prof_choose_bot)'
 cancel_btn: str
 main_menu: str
@@ -56,11 +56,13 @@ async def answer(lang):
     sleep(0.5)
 
     # client
+    client.hello_information = hello_info
     client.hello_error = hello_err
     client.help_button = help_btn
     client.help_information = help_info
     client.cancel_button = cancel_btn
     client.main_menu_text = main_menu
+    client.language_button = sett_lang_btn
 
     # other
     other.cancel_button = cancel_btn
@@ -68,7 +70,7 @@ async def answer(lang):
     other.message_error = msg_err
     other.test_button = test_btn
     other.settings_button = sett_btn
-    other.language_button = sett_lang_btn
+    # other.language_button = sett_lang_btn
     other.test_started = test_started
 
     # select_lang
@@ -76,6 +78,8 @@ async def answer(lang):
 
     # keyboards
     test_case_kb.cancel_button = cancel_btn
+
+    help_case_kb.cancel_button = cancel_btn
 
     settings_case_kb.lang_button = sett_lang_btn
     settings_case_kb.cancel_button = cancel_btn

@@ -20,25 +20,27 @@ def sql_start():
                  'help_info, msg_err)')
     base.commit()
     base.execute(
-        'CREATE TABLE IF NOT EXISTS questions(lang PRIMARY KEY, question_1,question_2,question_3,question_4,question_5,question_6,question_7,question_8,question_9,question_10,question_11,question_12,question_13,question_14,question_15,question_16,question_17,question_18)')
+        'CREATE TABLE IF NOT EXISTS questions(lang PRIMARY KEY, question_1,question_2,question_3,question_4,'
+        'question_5,question_6,question_7,question_8,question_9,question_10,question_11,question_12,question_13,'
+        'question_14,question_15,question_16,question_17,question_18)')
     base.commit()
 
 
 async def sql_add_command(state):
     async with state.proxy() as data:
-        res = await check_user_lang(data)
+        res = await check_user_lang(data['user_id'])
         if res is None:
             await add_user_lang(data)
-            res = await check_user_lang(data)
+            res = await check_user_lang(data['user_id'])
         elif data['lang'] != res[1]:
             await update_user_lang(data)
-            res = await check_user_lang(data)
+            res = await check_user_lang(data['user_id'])
         await answer(res[1])
         await set_questions(res[1])
         # await client.translate_client()
 
 
-async def check_user_lang(data):
+async def check_user_lang(id):
     await lang_info_add_am()
     await lang_info_add_ru()
     await lang_info_add_en()
@@ -46,13 +48,13 @@ async def check_user_lang(data):
     await add_am_questions()
     await add_ru_questions()
     await add_en_questions()
-    res = cur.execute('SELECT * FROM users WHERE user_id=?', (data['user_id'],)).fetchone()
+    res = cur.execute('SELECT * FROM users WHERE user_id=?', (id,)).fetchone()
     base.commit()
     return res
 
 
 async def add_user_lang(data):
-    cur.execute("INSERT INTO users VALUES (?, ?)", (data['user_id'], data['lang']))
+    cur.execute("INSERT INTO users VALUES (?, ?)", (data['user_id'], data['lang'],))
     base.commit()
 
 
@@ -67,7 +69,7 @@ async def lang_info_add_am():
                                                                                             "Ընտրեք լեզուն՝",
                                                                                             "Ընտրված է հայերեն լեզուն։",
                                                                                             "Բարև հարգելի օգտատեր, ես քեզ "
-                                                                                            "կօգնեմ IT-մասնագիտություն "
+                                                                                            "կօգն եմ IT-մասնագիտություն "
                                                                                             "ընտրելու հարցում։\nՍեղմիր "
                                                                                             "_\'✨ Թեստ\'_ կոճակը թեստը "
                                                                                             "սկսելու համար։",
@@ -166,8 +168,8 @@ async def lang_info_add_ru():
 async def add_am_questions():
     cur.execute("INSERT OR REPLACE INTO questions VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", ('AM',
                                                                                                    'Հետևյալ նշանների համակցություններից ո՞րը պետք է շարունակի այս շարքը՝ 1000011000111\n\n \
-                                                                                                    1) 1000\n \
-                                                                                                    2) 1100\n \
+                                                                                                    1) 1002\n \
+                                                                                                    2) 0111\n \
                                                                                                     3) 1112',
                                                                                                            'Դուք ձգտոու՞մ եք փոխել ձեր շրջապատը և գեղեցկացնել ձեր միջավայրը:\n\n \
                                                                                                     1) Այո, ես դա անում եմ անընդհատ\n \
@@ -227,8 +229,8 @@ async def add_am_questions():
 async def add_ru_questions():
     cur.execute("INSERT OR REPLACE INTO questions VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", ('RU',
                                                                                                    'Какой из следующих сочетаний знаков должно продолжить этот ряд: 1000011000111\n\n \
-                                                                                                    1) 1000\n \
-                                                                                                    2) 1100\n \
+                                                                                                    1) 1002\n \
+                                                                                                    2) 0111\n \
                                                                                                     3) 1112',
                                                                                                    'Ты стремишься внести перемены и украсить окружающую тебя среду?\n\n \
                                                                                                     1) Да, постоянно это делаю\n \
@@ -287,8 +289,8 @@ async def add_ru_questions():
 async def add_en_questions():
     cur.execute("INSERT OR REPLACE INTO questions VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", ('EN',
                                                                                                    'Which of the following combinations of characters should continue this series: 1000011000111\n\n \
-                                                                                                    1) 1000\n \
-                                                                                                    2) 1100\n \
+                                                                                                    1) 1002\n \
+                                                                                                    2) 0111\n \
                                                                                                     3) 1112',
                                                                                                    'Are you looking to make a difference and beautify your environment?\n\n \
                                                                                                     1) Yes, I do it all the time\n \

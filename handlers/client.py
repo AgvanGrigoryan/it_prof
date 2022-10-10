@@ -1,16 +1,23 @@
 from create_bot import bot
 from aiogram import types, Dispatcher
+
+from data_base.sqlite_db import check_user_lang
 from keyboards.client_kb import main_menu_kb
-from keyboards.test_case_kb import test_kb_case
+from keyboards.help_case_kb import help_kb_case
+from language import answer
+from questions import set_questions
 from select_lang import lang_set, load_lang, FSMClient, FSMContext
 
 import result
 
+hello_information: str
 hello_error: str
 help_button: str
 help_information: str
 cancel_button: str
 main_menu_text: str
+language_button: str
+
 
 # todoОшибка текстов для проверки хендлерами кнопок меню
 # async def translate_client():
@@ -23,20 +30,27 @@ main_menu_text: str
 
 # @dp.message_handler(commands=['start'])
 async def command_start(message: types.Message, state: FSMContext):
-    try:
-        await bot.send_message(message.from_user.id, "Hello")
+    # try:
+    result = await check_user_lang(message.from_user.id)
+    if result is None:
         await lang_set(message, state)
-    except:
-        # hello_error = await ans_hello_error()
-        await message.reply(hello_error, parse_mode='Markdown')
+    else:
+        await answer(result[1])
+        await set_questions(result[1])
+        main_menu_kb_case = await main_menu_kb()
+        await bot.send_message(message.from_user.id, hello_information, reply_markup=main_menu_kb_case, parse_mode="Markdown")
+
+    # except:
+    #     # hello_error = await ans_hello_error()
+    #     await message.answer(hello_error, parse_mode='Markdown')
 
 
 # @dp.message_handler(commands=['help'])
 # @dp.message_handler(Text(equals='❔ Help', ignore_case=True), state='*')
 async def command_help(message: types.Message):
     # help_info = await ans_help_info()
-    test_kb = await test_kb_case()
-    await message.answer(help_information, reply_markup=test_kb)
+    help_kb = await help_kb_case()
+    await message.answer(help_information, reply_markup=help_kb)
 
 
 # @dp.message_handler(lambda message: message.text == "⬅ չեղարկել")
@@ -54,5 +68,6 @@ def register_handlers_client(disp: Dispatcher):
     disp.register_message_handler(command_start, commands=['start'])
     disp.register_message_handler(command_help, commands=['help'])
     disp.register_message_handler(command_help, lambda message: message.text == help_button)
+    disp.register_message_handler(lang_set, lambda message: message.text == language_button)
     disp.register_message_handler(action_cancel, commands=['cancel'], state="*")
     disp.register_message_handler(action_cancel, lambda message: message.text == cancel_button)
