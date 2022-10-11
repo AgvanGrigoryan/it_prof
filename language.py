@@ -37,6 +37,7 @@ async def answer(lang):
     trans = base.execute("SELECT * FROM language WHERE lang=?", (lang,)).fetchone()
     base.commit()
 
+
     # if base:
     #     print('Database connected.')
     choose_lang = trans[1]

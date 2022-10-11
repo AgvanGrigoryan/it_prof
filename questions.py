@@ -9,10 +9,10 @@ async def set_questions(lang: str):
     question.clear()
     base = sq.connect("choose_it_prof.db")
     cur = base.cursor()
-    res = list(cur.execute("SELECT * FROM questions WHERE lang = ?", (lang,)).fetchone())
+    res = list(cur.execute("SELECT `question` FROM `questions` WHERE `lang` = ?", (lang,)).fetchall())
     base.commit()
-    for i in range(1, len(res)):
-        question.append(res[i])
+    for i in range(0, len(res)):
+        question.append(res[i][0])
 
 
 # question = \

@@ -3,11 +3,7 @@ from aiogram import Dispatcher, types
 from create_bot import bot
 from keyboards.settings_case_kb import settings_kb
 from keyboards.test_case_kb import test_kb_case
-from result import test, count
-
-
-
-
+from result import test, count, users
 
 settings_text: str
 message_error: str
@@ -28,6 +24,8 @@ test_started: str
 async def test_start(message: types.Message):
     test_kb = await test_kb_case()
     await bot.send_message(message.from_user.id, test_started, reply_markup=test_kb)
+    if users.__contains__(message.from_user.id):
+        users[message.from_user.id].reset()
     await test(message, message.from_user.id)
 
 

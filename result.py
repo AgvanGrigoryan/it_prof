@@ -1,3 +1,5 @@
+from typing import Any
+
 import aiogram
 from aiogram import types
 from create_bot import dp
@@ -33,14 +35,24 @@ class User_test:
 
     def reset(self):
         self.prof_count = dict()
-        self.prof_count['a'] = 0
-        self.prof_count['b'] = 0
-        self.prof_count['c'] = 0
-        self.prof_count['d'] = 0
-        self.prof_count['e'] = 0
-        self.prof_count['f'] = 0
+        self.prof_count['a'] = 0.0
+        self.prof_count['b'] = 0.0
+        self.prof_count['c'] = 0.0
+        self.prof_count['d'] = 0.0
+        self.prof_count['e'] = 0.0
+        self.prof_count['f'] = 0.0
 
         self.user_question = 0
+
+    def show_result(self):
+        print("USER ID: " + str(self.id))
+        print("programming=" + str(self.prof_count['a']))
+        print("Software testing=" + str(self.prof_count['b']))
+        print("Design=" + str(self.prof_count['c']))
+        print("Information Security=" + str(self.prof_count['d']))
+        print("System Administration=" + str(self.prof_count['e']))
+        print("Marketing=" + str(self.prof_count['f']))
+
 
 async def cancel(message: types.Message):
     """Обнуляет данные теста текущего пользователя"""
@@ -52,7 +64,9 @@ async def cancel(message: types.Message):
 async def test(message: types.Message, user_id=0):
     """Поочередный вывод вопросов"""
     global us_id, question_msg_box
-    if us_id != user_id and user_id not in users.keys():
+    if user_id == 0:
+        await message.delete()
+    elif us_id != user_id and user_id not in users.keys():
         us_id = user_id
         users[user_id] = User_test(user_id)
         users[user_id].user_question = 0
@@ -60,20 +74,20 @@ async def test(message: types.Message, user_id=0):
     if user_id in users.keys():
         user = users[user_id]
         i = user.user_question
-        question_msg_text = f"{i + 1}/{len(question)}\n" + question[i]
         if i == len(question):
             res = await result(user_id)
             await show_results(res, message)
             await question_msg_box.delete()
+            user.show_result()
             user.reset()
-        elif i == 0:
-            question_msg_box = await message.answer(text=question_msg_text)
-            user.increment()
-        else:
-            await question_msg_box.edit_text(text=f"{i + 1}/{len(question)}\n" + question[i])
-            # await message.delete()
-            # await message.answer(text=f"{i + 1}/{len(question)}\n" + question[i])
-            user.increment()
+        if i < len(question):
+            question_msg_text = f"{i + 1}/{len(question)}\n" + question[i]
+            if i == 0:
+                question_msg_box = await message.answer(text=question_msg_text)
+                user.increment()
+            else:
+                await question_msg_box.edit_text(text=question_msg_text)
+                user.increment()
 
 
 async def result(user_id):
@@ -90,12 +104,12 @@ async def result(user_id):
             query_result = cur.execute("SELECT `link` FROM  `courses` WHERE `prof_letter` = ? LIMIT 2",
                                        (let,)).fetchmany(2)
             base.commit()
-            prof_max_point = cur.execute("SELECT `max_point` FROM `profession` WHERE `prof_letter`=?", (let,)).fetchone()
+            prof_max_point = list(cur.execute("SELECT `max_point` FROM `profession` WHERE `prof_letter`=?", (let,)).fetchone())[0]
             base.commit()
             for row in query_result:
                 courses.append(row[0])
 
-            results[profession[let]] = round((max_num/list(prof_max_point)[0])*100, 2)
+            results[profession[let]] = round((max_num/prof_max_point)*100, 2)
     # users[user_id].reset()
     return [results, courses]
 
@@ -122,28 +136,36 @@ async def count(message: types.Message):
     question_number = user.user_question
     base = sq.connect('choose_it_prof.db')
     cur = base.cursor()
+    print(question_number)
     match message.text:
         case 'yes':
-            res = cur.execute("SELECT `yes` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+            res = cur.execute("SELECT `answer_1` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
             base.commit()
         case 'almost yes':
-            res = cur.execute("SELECT `almostYes` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+            res = cur.execute("SELECT `answer_2` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
             base.commit()
         case 'i don\'t know':
-            res = cur.execute("SELECT `idontknow` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+            res = cur.execute("SELECT `answer_3` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
             base.commit()
         case 'almost no':
-            res = cur.execute("SELECT `almostno` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+            res = cur.execute("SELECT `answer_4` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
             base.commit()
         case 'no':
-            res = cur.execute("SELECT `no` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+            res = cur.execute("SELECT `answer_5` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
             base.commit()
     await message.delete()
 
     for answer in list(res):
-        for letter in list(answer):
-            users[user_id].prof_count[letter] += 1
+        for prof in list(answer.split(",")):
+            prof_group = prof.split("=")
+            prof_letter = prof_group[0]
+            prof_value = float(prof_group[1])
+            users[user_id].prof_count[prof_letter] += prof_value
         await test(message, message.from_user.id)
+
+
+
+
 
     # await test(cb.message, cb.from_user.id)
     # await cb.answer()

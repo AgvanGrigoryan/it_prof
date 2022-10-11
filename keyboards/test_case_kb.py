@@ -6,6 +6,8 @@ cancel_button: str
 
 
 async def test_kb_case():
+    # test_kb = ReplyKeyboardMarkup(resize_keyboard=True)
+
     q_a1_btn = KeyboardButton(answers.q_a1)
     q_a2_btn = KeyboardButton(answers.q_a2)
     q_a3_btn = KeyboardButton(answers.q_a3)

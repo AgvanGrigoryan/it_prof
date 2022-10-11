@@ -52,7 +52,7 @@ async def load_lang(message: types.Message, state: FSMContext):
     if message.from_user.id == ID:
         async with state.proxy() as data:
             data['lang'] = await lang_code(message)
-        await sqlite_db.sql_add_command(state)
+        await sqlite_db.sql_add_command(state, message)
         main_menu = await main_menu_kb()
         await bot.send_message(message.from_user.id, hello_information, reply_markup=main_menu, parse_mode="Markdown")
 
