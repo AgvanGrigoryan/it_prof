@@ -68,7 +68,6 @@ async def test(message: types.Message, user_id=0):
     elif us_id != user_id and user_id not in users.keys():
         us_id = user_id
         users[user_id] = User_test(user_id)
-        # todo porcel jnjel vari tox@, ashel ban poxvik@ te che
         users[user_id].user_question = 0
 
     if user_id in users.keys():
@@ -162,7 +161,6 @@ async def count(message: types.Message):
     for answer in list(res):
         for prof in list(answer.split(",")):
             prof_group = prof.split("=")
-            print(prof_group)
             prof_letter = prof_group[0]
             prof_value = float(prof_group[1])
             users[user_id].prof_count[prof_letter] += prof_value

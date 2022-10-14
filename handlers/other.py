@@ -40,7 +40,6 @@ async def settings_open(message: types.Message):
 
 async def test_reply(message: types.Message):
     # await bot.send_message(message.from_user.id, "Test is complete")
-    print(answers_btns)
     await count(message)
 
 
