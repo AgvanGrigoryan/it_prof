@@ -1,11 +1,10 @@
-from typing import Any
 
-import aiogram
 from aiogram import types
+
 from create_bot import dp
 from keyboards.client_kb import main_menu_kb
+from keyboards.test_case_kb import test_kb_case, answers_btns
 from questions import question
-from keyboards import questions_kb_case
 import sqlite3 as sq
 
 
@@ -69,6 +68,7 @@ async def test(message: types.Message, user_id=0):
     elif us_id != user_id and user_id not in users.keys():
         us_id = user_id
         users[user_id] = User_test(user_id)
+        # todo porcel jnjel vari tox@, ashel ban poxvik@ te che
         users[user_id].user_question = 0
 
     if user_id in users.keys():
@@ -80,13 +80,15 @@ async def test(message: types.Message, user_id=0):
             await question_msg_box.delete()
             user.show_result()
             user.reset()
-        if i < len(question):
+        elif i < len(question):
+            test_kb = await test_kb_case(i)
             question_msg_text = f"{i + 1}/{len(question)}\n" + question[i]
             if i == 0:
-                question_msg_box = await message.answer(text=question_msg_text)
+                question_msg_box = await message.answer(text=question_msg_text, reply_markup=test_kb)
                 user.increment()
             else:
-                await question_msg_box.edit_text(text=question_msg_text)
+                await question_msg_box.delete()
+                question_msg_box = await message.answer(text=question_msg_text, reply_markup=test_kb)
                 user.increment()
 
 
@@ -136,28 +138,31 @@ async def count(message: types.Message):
     question_number = user.user_question
     base = sq.connect('choose_it_prof.db')
     cur = base.cursor()
-    print(question_number)
-    match message.text:
-        case 'yes':
-            res = cur.execute("SELECT `answer_1` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-            base.commit()
-        case 'almost yes':
-            res = cur.execute("SELECT `answer_2` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-            base.commit()
-        case 'i don\'t know':
-            res = cur.execute("SELECT `answer_3` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-            base.commit()
-        case 'almost no':
-            res = cur.execute("SELECT `answer_4` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-            base.commit()
-        case 'no':
-            res = cur.execute("SELECT `answer_5` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-            base.commit()
+    answer_clmn = "answer_" + str(answers_btns.index(message.text)+1)
+    query = f"SELECT {answer_clmn} FROM `answers` WHERE `question_num`={question_number}"
+    res = cur.execute(query).fetchone()
+    base.commit()
+    # match message.text:
+    #     case 'Մաթեմատիկա':
+    #         res = cur.execute("SELECT `answer_1` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+    #         base.commit()
+    #     case 'almost yes':
+    #         res = cur.execute("SELECT `answer_2` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+    #         base.commit()
+    #     case 'i don\'t know':
+    #         res = cur.execute("SELECT `answer_3` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+    #         base.commit()
+    #     case 'almost no':
+    #         res = cur.execute("SELECT `answer_4` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+    #         base.commit()
+    #     case 'no':
+    #         res = cur.execute("SELECT `answer_5` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
+    #         base.commit()
     await message.delete()
-
     for answer in list(res):
         for prof in list(answer.split(",")):
             prof_group = prof.split("=")
+            print(prof_group)
             prof_letter = prof_group[0]
             prof_value = float(prof_group[1])
             users[user_id].prof_count[prof_letter] += prof_value

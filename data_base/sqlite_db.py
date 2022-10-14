@@ -2,6 +2,7 @@ import sqlite3 as sq
 
 from aiogram import types
 
+from answers import set_questions_ans_btns
 from language import answer
 from questions import set_questions
 
@@ -39,6 +40,7 @@ async def sql_add_command(state, message):
             res = await check_user_lang(data['user_id'])
         await answer(res[1])
         await set_questions(res[1])
+        await set_questions_ans_btns(res[1])
         # await client.translate_client()
 
 

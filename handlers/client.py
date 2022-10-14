@@ -1,3 +1,4 @@
+from answers import set_questions_ans_btns
 from create_bot import bot
 from aiogram import types, Dispatcher
 
@@ -37,6 +38,7 @@ async def command_start(message: types.Message, state: FSMContext):
     else:
         await answer(result[1])
         await set_questions(result[1])
+        await set_questions_ans_btns(result[1])
         main_menu_kb_case = await main_menu_kb()
         await bot.send_message(message.from_user.id, hello_information, reply_markup=main_menu_kb_case, parse_mode="Markdown")
 
@@ -51,7 +53,6 @@ async def command_help(message: types.Message):
     # help_info = await ans_help_info()
     help_kb = await help_kb_case()
     await message.answer(help_information, reply_markup=help_kb)
-
 
 # @dp.message_handler(lambda message: message.text == "⬅ չեղարկել")
 async def action_cancel(message: types.Message):

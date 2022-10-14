@@ -1,19 +1,16 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
-import answers
+from answers import question_ans_btns
 
 cancel_button: str
+answers_btns = []
 
-
-async def test_kb_case():
-    # test_kb = ReplyKeyboardMarkup(resize_keyboard=True)
-
-    q_a1_btn = KeyboardButton(answers.q_a1)
-    q_a2_btn = KeyboardButton(answers.q_a2)
-    q_a3_btn = KeyboardButton(answers.q_a3)
-    q_a4_btn = KeyboardButton(answers.q_a4)
-    q_a5_btn = KeyboardButton(answers.q_a5)
+async def test_kb_case(question_number):
+    test_kb = ReplyKeyboardMarkup(resize_keyboard=True)
+    answers_btns.clear()
+    for question_answers in question_ans_btns[question_number]:
+        if question_answers is not None:
+            answers_btns.append(question_answers)
+            test_kb.add(KeyboardButton(question_answers))
     cancel = KeyboardButton(cancel_button)
-    test_kb = ReplyKeyboardMarkup(resize_keyboard=True, row_width=10, selective=True).row(q_a1_btn, q_a2_btn, q_a3_btn, q_a4_btn, q_a5_btn).add(cancel)
-
-    return test_kb
+    return test_kb.add(cancel)
