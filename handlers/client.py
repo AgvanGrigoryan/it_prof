@@ -1,12 +1,9 @@
-from answers import set_questions_ans_btns
 from create_bot import bot
 from aiogram import types, Dispatcher
 
-from data_base.sqlite_db import check_user_lang
+from data_base.sqlite_db import check_user_lang, initial_setup
 from keyboards.client_kb import main_menu_kb
 from keyboards.help_case_kb import help_kb_case
-from language import answer
-from questions import set_questions
 from select_lang import lang_set, load_lang, FSMClient, FSMContext
 
 import result
@@ -32,13 +29,11 @@ language_button: str
 # @dp.message_handler(commands=['start'])
 async def command_start(message: types.Message, state: FSMContext):
     # try:
-    result = await check_user_lang(message.from_user.id)
-    if result is None:
+    check_result = await check_user_lang(message.from_user.id)
+    if check_result is None:
         await lang_set(message, state)
     else:
-        await answer(result[1])
-        await set_questions(result[1])
-        await set_questions_ans_btns(result[1])
+        await initial_setup(check_result[1])
         main_menu_kb_case = await main_menu_kb()
         await bot.send_message(message.from_user.id, hello_information, reply_markup=main_menu_kb_case, parse_mode="Markdown")
 
@@ -54,6 +49,7 @@ async def command_help(message: types.Message):
     help_kb = await help_kb_case()
     await message.answer(help_information, reply_markup=help_kb)
 
+
 # @dp.message_handler(lambda message: message.text == "⬅ չեղարկել")
 async def action_cancel(message: types.Message):
     types.ReplyKeyboardRemove()
@@ -61,6 +57,11 @@ async def action_cancel(message: types.Message):
     # main_menu = await ans_main_menu()
     await message.answer(main_menu_text, reply_markup=main_menu_kb_case)
     await result.cancel(message)
+
+
+async def show_keyboard(message: types.Message):
+    main_menu_kb_case = await main_menu_kb()
+    await bot.send_message(message.from_user.id, "Show Main menu keyboard", reply_markup=main_menu_kb_case)
 
 
 def register_handlers_client(disp: Dispatcher):
@@ -71,4 +72,5 @@ def register_handlers_client(disp: Dispatcher):
     disp.register_message_handler(command_help, lambda message: message.text == help_button)
     disp.register_message_handler(lang_set, lambda message: message.text == language_button)
     disp.register_message_handler(action_cancel, commands=['cancel'], state="*")
+    disp.register_message_handler(show_keyboard, commands=['show_keyboard'])
     disp.register_message_handler(action_cancel, lambda message: message.text == cancel_button)

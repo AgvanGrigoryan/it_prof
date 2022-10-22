@@ -38,12 +38,16 @@ async def sql_add_command(state, message):
         elif data['lang'] != res[1]:
             await update_user_lang(data, message)
             res = await check_user_lang(data['user_id'])
-        await answer(res[1])
-        await set_questions(res[1])
-        await set_questions_ans_btns(res[1])
+
+        await initial_setup(res[1])
         # await client.translate_client()
 
 
+async def initial_setup(language):
+    await count_prof_max_point()
+    await answer(language)
+    await set_questions(language)
+    await set_questions_ans_btns(language)
 async def check_user_lang(id):
     res = cur.execute('SELECT * FROM users WHERE user_id=?', (id,)).fetchone()
     base.commit()
@@ -59,3 +63,9 @@ async def update_user_lang(data, message: types.Message):
     cur.execute('UPDATE `users` SET `lang`=?,`username`=?,`fullname`=?,`is_bot`=? WHERE `user_id`=?', (data['lang'], message.from_user.username, message.from_user.full_name, message.from_user.is_bot, data['user_id']))
     base.commit()
 
+async def count_prof_max_point():
+    res = cur.execute('SELECT `answer_1`,`answer_2`,`answer_3`,`answer_4`, `answer_5`  FROM `answers`').fetchone()
+    base.commit()
+    for row in res:
+        # todo profesion maximum point count
+        print(row)

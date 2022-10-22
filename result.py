@@ -3,7 +3,7 @@ from aiogram import types
 
 from create_bot import dp
 from keyboards.client_kb import main_menu_kb
-from keyboards.test_case_kb import test_kb_case, answers_btns
+from keyboards.test_inline_kb import test_inline_markup, answers_btns
 from questions import question
 import sqlite3 as sq
 
@@ -76,17 +76,14 @@ async def test(message: types.Message, user_id=0):
         if i == len(question):
             res = await result(user_id)
             await show_results(res, message)
-            await question_msg_box.delete()
-            user.show_result()
             user.reset()
         elif i < len(question):
-            test_kb = await test_kb_case(i)
+            test_kb = await test_inline_markup(i)
             question_msg_text = f"{i + 1}/{len(question)}\n" + question[i]
             if i == 0:
                 question_msg_box = await message.answer(text=question_msg_text, reply_markup=test_kb)
                 user.increment()
             else:
-                await question_msg_box.delete()
                 question_msg_box = await message.answer(text=question_msg_text, reply_markup=test_kb)
                 user.increment()
 
@@ -129,34 +126,23 @@ async def show_results(res, message: types.Message):
     for link in courses:
         await message.answer(link)
 
-async def count(message: types.Message):
+
+@dp.callback_query_handler(text=answers_btns)
+async def get_test_reply_callback(callback: types.CallbackQuery):
     """Собирает запросы и распределяет ответы по профессиям"""
     global base, cur, res
-    user_id = message.from_user.id
+    message = callback.message
+    user_id = callback.from_user.id
     user = users[user_id]
     question_number = user.user_question
     base = sq.connect('choose_it_prof.db')
     cur = base.cursor()
-    answer_clmn = "answer_" + str(answers_btns.index(message.text)+1)
+    # get question answer value from db
+    answer_clmn = "answer_" + str(answers_btns.index(callback.data)+1)
     query = f"SELECT {answer_clmn} FROM `answers` WHERE `question_num`={question_number}"
     res = cur.execute(query).fetchone()
     base.commit()
-    # match message.text:
-    #     case 'Մաթեմատիկա':
-    #         res = cur.execute("SELECT `answer_1` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-    #         base.commit()
-    #     case 'almost yes':
-    #         res = cur.execute("SELECT `answer_2` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-    #         base.commit()
-    #     case 'i don\'t know':
-    #         res = cur.execute("SELECT `answer_3` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-    #         base.commit()
-    #     case 'almost no':
-    #         res = cur.execute("SELECT `answer_4` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-    #         base.commit()
-    #     case 'no':
-    #         res = cur.execute("SELECT `answer_5` FROM `answers` WHERE `question_num`=?", (question_number,)).fetchone()
-    #         base.commit()
+
     await message.delete()
     for answer in list(res):
         for prof in list(answer.split(",")):
@@ -164,8 +150,8 @@ async def count(message: types.Message):
             prof_letter = prof_group[0]
             prof_value = float(prof_group[1])
             users[user_id].prof_count[prof_letter] += prof_value
-        await test(message, message.from_user.id)
-
+        await test(message, callback.from_user.id)
+    await callback.answer("Otvetili")
 
 
 
@@ -174,10 +160,10 @@ async def count(message: types.Message):
     # await cb.answer()
 
 
-@dp.callback_query_handler(text=callback_values)
+@dp.callback_query_handler(text="kkkk")
 async def get_callback(callback: types.CallbackQuery):
     """Принимает заранее написанные(в callbakc_values) запросы"""
-    await count(callback)
+    await get_test_reply_callback(callback)
 
 
 @dp.callback_query_handler(text='pass')

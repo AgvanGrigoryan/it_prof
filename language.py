@@ -4,7 +4,7 @@ from time import sleep
 
 import select_lang
 from handlers import client, other
-from keyboards import test_case_kb, settings_case_kb, client_kb, help_case_kb
+from keyboards import settings_case_kb, client_kb, help_case_kb, test_reply_kb
 
 # global base, cur, trans
 trans: tuple
@@ -78,7 +78,7 @@ async def answer(lang):
     select_lang.hello_information = hello_info
 
     # keyboards
-    test_case_kb.cancel_button = cancel_btn
+    test_reply_kb.cancel_button = cancel_btn
 
     help_case_kb.cancel_button = cancel_btn
 

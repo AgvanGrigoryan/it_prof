@@ -10,6 +10,7 @@ async def on_startup(_):
 
 
 
+
 client.register_handlers_client(dp)
 other.register_handlers_other(dp)
 
