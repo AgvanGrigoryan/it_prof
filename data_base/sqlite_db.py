@@ -64,8 +64,28 @@ async def update_user_lang(data, message: types.Message):
     base.commit()
 
 async def count_prof_max_point():
-    res = cur.execute('SELECT `answer_1`,`answer_2`,`answer_3`,`answer_4`, `answer_5`  FROM `answers`').fetchone()
+    letters_res = cur.execute('SELECT `prof_letter` FROM `profession`').fetchall()
     base.commit()
-    for row in res:
-        # todo profesion maximum point count
-        print(row)
+    prof_letters = dict()
+    res = cur.execute('SELECT `answer_1`,`answer_2`,`answer_3`,`answer_4`, `answer_5`  FROM `answers`').fetchall()
+    base.commit()
+
+    prof_letters = {letter[0]: 0.0 for letter in letters_res}
+    max_prof_letters_in_question = prof_letters.copy()
+
+    for question in res:
+        for letter in max_prof_letters_in_question:
+            max_prof_letters_in_question[letter] = 0.0
+        for answer in list(question):
+            prof_group = answer.split(",")
+            for letter_group in prof_group:
+                letter_and_value = letter_group.split("=")
+                prof_letter = letter_and_value[0]
+                prof_value = float(letter_and_value[1])
+                if max_prof_letters_in_question[prof_letter] < prof_value:
+                    max_prof_letters_in_question[prof_letter] = prof_value
+        for letter in prof_letters:
+            prof_letters[letter] += max_prof_letters_in_question[letter]
+    for letter, value in prof_letters.items():
+        res = cur.execute("UPDATE `profession` SET `max_point` = ? WHERE `prof_letter`=?", (value,letter))
+    base.commit()

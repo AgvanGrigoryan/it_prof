@@ -90,24 +90,26 @@ async def test(message: types.Message, user_id=0):
 
 async def result(user_id):
     """Считает результаты теста"""
+    base = sq.connect("choose_it_prof.db")
+    cur = base.cursor()
+    profs_max_point = cur.execute("SELECT `prof_letter`, `max_point` FROM `profession`").fetchall()
+    base.commit()
+    print(profs_max_point)
+
     user_res = users[user_id].prof_count
     letter = max(user_res, key=user_res.get)
     max_num = user_res[letter]
     results = dict()
     courses = []
     for let in user_res:
-        base = sq.connect("choose_it_prof.db")
-        cur = base.cursor()
         if user_res[let] == max_num:
             query_result = cur.execute("SELECT `link` FROM  `courses` WHERE `prof_letter` = ? LIMIT 2",
                                        (let,)).fetchmany(2)
             base.commit()
-            prof_max_point = list(cur.execute("SELECT `max_point` FROM `profession` WHERE `prof_letter`=?", (let,)).fetchone())[0]
-            base.commit()
             for row in query_result:
                 courses.append(row[0])
 
-            results[profession[let]] = round((max_num/prof_max_point)*100, 2)
+            results[profession[let]] = round((max_num/profs_max_point[let])*100, 2)
     # users[user_id].reset()
     return [results, courses]
 
@@ -151,7 +153,7 @@ async def get_test_reply_callback(callback: types.CallbackQuery):
             prof_value = float(prof_group[1])
             users[user_id].prof_count[prof_letter] += prof_value
         await test(message, callback.from_user.id)
-    await callback.answer("Otvetili")
+    await callback.answer("Loading...")
 
 
 
