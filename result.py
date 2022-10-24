@@ -92,9 +92,9 @@ async def result(user_id):
     """Считает результаты теста"""
     base = sq.connect("choose_it_prof.db")
     cur = base.cursor()
-    profs_max_point = cur.execute("SELECT `prof_letter`, `max_point` FROM `profession`").fetchall()
+    profs_max_possible_point = cur.execute("SELECT `prof_letter`, `max_point` FROM `profession`").fetchall()
     base.commit()
-    print(profs_max_point)
+    profs_max_possible_point = {letter: value for letter, value in profs_max_possible_point}
 
     user_res = users[user_id].prof_count
     letter = max(user_res, key=user_res.get)
@@ -108,8 +108,7 @@ async def result(user_id):
             base.commit()
             for row in query_result:
                 courses.append(row[0])
-
-            results[profession[let]] = round((max_num/profs_max_point[let])*100, 2)
+            results[profession[let]] = round((max_num/profs_max_possible_point[let])*100, 2)
     # users[user_id].reset()
     return [results, courses]
 
@@ -119,12 +118,12 @@ async def show_results(res, message: types.Message):
     prof = res[0]
     courses = res[1]
     main_menu = await main_menu_kb()
-    result_text = "Թեստի արդյունքից որոշվել է որ \nձեզ են համախատասխանում \nհետևյալ ՏՏ-մասնագիտությունները՝\n\n"
-    for key in prof.keys():
-        result_text += f'*{key} {prof[key]}%,*\n'
-    result_text += '\nՇնորհակալ ենք մեզ վստահելու համար։'
+    result_text = "_Թեստի արդյունքից որոշվել է որ \nձեզ են համախատասխանում \nհետևյալ ՏՏ-մասնագիտությունները_՝\n\n"
+    for prof, percent in prof.items():
+        result_text += f'*{prof} {percent}%,*\n'
+    result_text += '\n_Շնորհակալ ենք մեզ վստահելու համար։\n' \
+                   'Ձեզ ենք առաչարկում հետևյալ կուրսերը՝_'
     await message.answer(result_text, parse_mode='Markdown', reply_markup=main_menu)
-    await message.answer("Ձեզ ենք առաչարկում հետևյալ կուրսերը՝")
     for link in courses:
         await message.answer(link)
 
